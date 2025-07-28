@@ -96,7 +96,6 @@ function flipCard(card) {
             firstCard.classList.add('matched');
             secondCard.classList.add('matched');
             // Do NOT remove 'flipped' class here for matched cards.
-            // The CSS for .card.matched will keep them rotated to show the image.
 
             matchedPairs++;
             flippedCards = []; // Reset for the next pair
