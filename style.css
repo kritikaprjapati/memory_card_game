@@ -1,0 +1,180 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-header {
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 10px; /* Space between elements */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+    perspective: 1000px; /* Essential for 3D transform effect */
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d; /* Allows child elements to be positioned in 3D space */
+    transition: transform 0.6s ease-in-out; /* Smooth flip animation */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* When the card is flipped, rotate it 180 degrees */
+.card.flipped,
+.card.matched { /* IMPORTANT: Ensure .card.matched is also in this rule */
+    display: block;
+    transform: rotateY(180deg);
+    
+}
+
+.card.matched {
+    pointer-events: none; /* Make matched cards unclickable */
+    opacity: 0.7; /* Slightly dim matched cards to distinguish them */
+    border: 4px solid limegreen;
+}
+
+/* Front and Back Faces of the Card */
+.front-face,
+.back-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 8px;
+    backface-visibility: hidden; /* This is key: hides the face when it's rotated away from the viewer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+}
+
+.front-face {
+    /* The front face is initially rotated 180 degrees, so it's hidden */
+    transform: rotateY(180deg);
+}
+
+.front-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images fit without distortion */
+    border-radius: 8px;
+    /* No need for display: block here, it's already a block-level element within a flex container */
+}
+
+.back-face {
+    background: #007BFF; /* Blue color for the back of the card */
+    color: white;
+    font-size: 40px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* Inner shadow for back */
+    /* The back face is initially at 0 degrees, so it's visible */
+    transform: rotateY(0deg);
+}
+
+/* Optional: Dim matched cards */
+.card.matched {
+    opacity: 0.7;
+    pointer-events: none; /* Make matched cards unclickable */
+}
+
+
+#congrats-message {
+    font-size: 24px;
+    margin-top: 30px;
+    color: #28a745;
+    font-weight: bold;
+    background-color: #e6ffe6;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        width: 95%; /* Adjust width for small screens */
+    }
+
+    .stats {
+        flex-direction: row; /* Keep stats in a row, but reduce gap */
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .game-board {
+        grid-template-columns: repeat(3, 80px); /* 3 columns on smaller screens */
+        gap: 8px;
+    }
+
+    .card {
+        width: 80px;
+        height: 80px;
+    }
+
+    .front-face img, .back-face {
+        font-size: 30px;
+    }
+
+    #congrats-message {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+}
